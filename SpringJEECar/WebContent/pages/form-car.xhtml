@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+ 
+<body> 
+<h:form>
+<h:panelGrid columns="2">
+<h:outputLabel value="Car Description: "/>
+<h:inputText value="#{carController.car.description}"/>
+<h:outputLabel value="Sale Price: "/>
+<h:inputText value="#{carController.car.priceSale}" converter="javax.faces.BigDecimal"/>
+<h:outputLabel value="year:"/>
+<h:inputText value="#{carController.car.year}"/>
+<h:commandButton value="Save" actionListener="#{carController.save}"/>
+
+</h:panelGrid>
+<h:dataTable id="cartable" value="#{carController.listCars}" var="car" cellpadding="10">
+<h:column>
+<f:facet name="header">
+<h:outputText value="Id"/>
+</f:facet>
+#{car.id}
+</h:column>
+<h:column>
+<f:facet name="header">
+<h:outputText value="Description"/>
+</f:facet>
+#{car.description}
+</h:column>
+
+<h:column>
+<f:facet name="header">
+<h:outputText value="Sale Price"/>
+</f:facet>
+<h:outputText value="#{car.priceSale}">
+<f:convertNumber type="currency" maxFractionDigits="3"/>
+</h:outputText>
+</h:column>
+
+<h:column>
+<f:facet name="header">
+<h:outputText value="Year"/>
+</f:facet>
+#{car.year}
+</h:column>
+
+<h:column>
+<f:facet name="header">
+<h:outputText value="Action"/>
+</f:facet>
+<h:commandLink value="Delete" action="#{carController.delete}">
+<f:setPropertyActionListener target="#{carController.car}" value="#{car}"/>
+</h:commandLink>
+<h:commandLink value=" | Edit "> 
+<f:setPropertyActionListener target="#{carController.car}"  value="#{car}"/>
+</h:commandLink>
+</h:column>
+
+</h:dataTable>
+</h:form>
+</body> 
+</html>
