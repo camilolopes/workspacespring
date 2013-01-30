@@ -38,5 +38,5 @@ public class CarDAOImpl implements CarDAO {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
+ 
 }

@@ -35,9 +35,9 @@ public class CarServiceImplTest {
 	car.setPriceSale(BigDecimal.ZERO);
 	car.setYear("2010");
 	}
-
+	
+//	@Rollback(false) //isso faz inserir no banco
 	@Test
-	@Rollback(false) //isso faz inserir no banco
 	public void testSaveOrUpdate() {
 		try{
 			carServices.saveOrUpdate(car);

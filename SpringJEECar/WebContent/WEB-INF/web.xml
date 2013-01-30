@@ -2,13 +2,17 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
  <display-name>SpringJEECar</display-name>
+ <!-- dizendo onde está meu arquivo de configuração -->
  <context-param>
   <param-name>contextConfigLocation</param-name>
-  <param-value>/WEB-INF/springconfiguration.xml</param-value>
+  <param-value>/WEB-INF/springconfiguration.xml,</param-value>
  </context-param>
+ <!-- configurando o context loader do Spring, esse cara permite carregar N arquivos de configuração -->
  <listener>
   <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
  </listener>
+ <!-- esse cara permite dizer ao JSF que os beans serão gerenciados pelo Spring é requerido ter essa 
+ configuração -->
  <listener>
   <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
  </listener>
@@ -24,6 +28,7 @@
  <welcome-file-list>
   <welcome-file>index.html</welcome-file>
   <welcome-file>index.htm</welcome-file>
+  <welcome-file>index.jsf</welcome-file>
   <welcome-file>index.jsp</welcome-file>
   <welcome-file>default.html</welcome-file>
   <welcome-file>default.htm</welcome-file>

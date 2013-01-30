@@ -29,16 +29,19 @@ public class CarController {
 		carServices.delete(car);
 		car = new Car();
 	}
+	
+	public List<Car> getListCars() {
+		listCars = carServices.listAll();
+		return listCars;
+	}
+	
 	public Car getCar() {
 		return car;
 	}
 	public void setCar(Car car) {
 		this.car = car;
 	}
-	public List<Car> getListCars() {
-		listCars = carServices.listAll();
-		return listCars;
-	}
+	
 	public void setListCars(List<Car> listCars) {
 		this.listCars = listCars;
 	}

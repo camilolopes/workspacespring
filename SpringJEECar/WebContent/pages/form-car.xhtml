@@ -14,7 +14,6 @@
 <h:outputLabel value="year:"/>
 <h:inputText value="#{carController.car.year}"/>
 <h:commandButton value="Save" actionListener="#{carController.save}"/>
-
 </h:panelGrid>
 <h:dataTable id="cartable" value="#{carController.listCars}" var="car" cellpadding="10">
 <h:column>
@@ -29,7 +28,6 @@
 </f:facet>
 #{car.description}
 </h:column>
-
 <h:column>
 <f:facet name="header">
 <h:outputText value="Sale Price"/>
