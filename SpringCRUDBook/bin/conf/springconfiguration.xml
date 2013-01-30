@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+ <!-- beans  -->
+ <bean  id="category" class="br.com.camilolopes.domain.classes.Category"/>
+ <bean  id="book" class="br.com.camilolopes.domain.classes.Book"/>
+ <bean  id="bookstoredao" class="br.com.camilolopes.dao.BookStoreDAO"/>
+ <bean  id="categorydao" class="br.com.camilolopes.dao.CategoryDAO"/>
+ 
+ <!-- DataSource -->
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	<property name="url" value="jdbc:mysql://localhost/test"/>
+	<property name="username" value="root"/>
+	<property name="password" value="123"/>
+</bean>
+ 
+ <!-- Using Annotations for mapping -->
+ <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+ <!-- property for DataBase -->
+ 	<property name="dataSource" ref="dataSource"/>
+ 	<!-- informing the annotated classes -->
+ 	 <property name="annotatedClasses">
+ 	<list>
+ 		<value>br.com.camilolopes.domain.classes.Book</value>
+ 		<value>br.com.camilolopes.domain.classes.Category</value>
+ 	</list>
+ 	</property>
+ 	<!-- Property of Hibernate -->
+ 	<property name="hibernateProperties">
+ 		<props>
+ 		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
+ 		</props>
+ 	</property>
+ </bean>
+ <!-- using HibernateTemplate from Spring -->
+ <bean  id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+ 	<property name="sessionFactory" ref="sessionFactory"/>
+ </bean>
+
+<bean id="transactionManager" 
+            class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+  <context:annotation-config/>
+</beans>
