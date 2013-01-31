@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+<context:component-scan base-package="*"/>
+
+<!-- não é necessário pq não estou fazendo a transaction via annotation -->
+<tx:annotation-driven/>
+
+<!-- todo medoto que começa com add é required uma transaction -->
+<tx:advice id="txAdvice">
+<tx:attributes>
+<tx:method name="add*" propagation="REQUIRED"/>
+<tx:method name="update*" propagation="REQUIRED"/>
+<tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+</tx:attributes>
+</tx:advice>
+<!-- toda classe que extends a interface terá uma referência para o advisor -->
+<aop:config>
+<aop:advisor pointcut = "execution(* *..RentCar.*(..)))" advice-ref="txAdvice"/>
+</aop:config>
+
+<!-- esse cara faz as traduções das exception checked para as unchecked do Spring -->
+<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+<!-- pelo nome já diz, data source para conexão com o DB -->
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+<property name="url" value="jdbc:mysql://localhost/test"/>
+<property name="username" value="root"/>
+<property name="password" value="camilo2593"/>
+</bean>
+
+<!-- Aqui estamos definido como será a parte de persistêcia, e dizemos que faremos via annotation -->
+<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+<!-- informando a quem estaremos conectado -->
+<property name="dataSource" ref="dataSource"/>
+<!-- dizendo onde estão as classes dominio, ele saberá devido anotação @Entity  -->
+<property name="packagesToScan" value="br.com.camilolopes.rentcar.domain.bean"/>
+<!-- configurando coisas especificas do Hibernate -->
+<property name="hibernateProperties">
+<props>
+<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+<prop key="hibernate.hbm2ddl.auto">update</prop>
+</props>
+</property>
+</bean>
+<!-- definindo quem vai gerenciar as transaction, ou seja, será o Hibernate -->
+<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+<property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+</beans>
