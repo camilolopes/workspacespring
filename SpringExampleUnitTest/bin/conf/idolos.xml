@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+ 
+ <!-- classe normal -->
+ <bean id="atireiopau" class="br.com.camilolopes.AtireioPauNoGato"/>
+ <bean id="chicleteiro" class="br.com.camilolopes.Chicleteiro" />
+
+<!-- essa classe tem referencia para a outra classe -->
+ <bean id="jose" class="br.com.camilolopes.Cantor">
+ 	<property name="musica" ref="atireiopau" />
+ </bean>
+<!-- classe que implementa a interface -->
+ <bean id="bell" class="br.com.camilolopes.Chicletao">
+ 	<property name="chicleteiroMusica" ref="chicleteiro"/>
+ </bean> 
+ 
+</beans>
